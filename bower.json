@@ -1,0 +1,12 @@
+{
+  "name": "broman",
+  "version": "1.0.0",
+  "dependencies": {
+    "angular": "*",
+    "font-awesome": "*",
+    "foundation": "*",
+    "html5-boilerplate": "*",
+    "jquery": "*",
+    "modernizr": "*"
+  }
+}
