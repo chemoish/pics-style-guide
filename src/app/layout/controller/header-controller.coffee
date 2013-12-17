@@ -1,7 +1,6 @@
-angular.module('app').controller 'headerController', [
+PICS.controller 'HeaderController', [
   '$scope'
   (
     $scope
   ) ->
-    $scope.title = 'Broman'
 ]

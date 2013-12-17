@@ -17,6 +17,8 @@ module.exports = (grunt) ->
     coffee:
       dev:
         dest: 'tmp/app.js'
+        options:
+          bare: true
         src: [
           'src/app/app.coffee'
           'src/app/**/*.coffee'
@@ -48,6 +50,7 @@ module.exports = (grunt) ->
       app:
         dest: 'tmp/template.js'
         options:
+          module: 'pics'
           url: (url) ->
             url.replace('tmp/app/', '')
         src: 'tmp/**/*.html'
@@ -102,6 +105,7 @@ module.exports = (grunt) ->
           src: [
             'vendor/bower/jQuery/jquery.js'
             'vendor/bower/angular/angular.js'
+            'vendor/bower/angular-route/angular-route.js'
             'vendor/bower/foundation/js/foundation.js'
           ]
         ]
@@ -118,6 +122,7 @@ module.exports = (grunt) ->
           src: [
             'vendor/bower/jQuery/jquery.min.js'
             'vendor/bower/angular/angular.min.js'
+            'vendor/bower/angular-route/angular-route.min.js'
             'vendor/bower/foundation/js/foundation.min.js'
           ]
         ]

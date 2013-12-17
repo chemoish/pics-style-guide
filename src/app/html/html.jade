@@ -1,0 +1,449 @@
+.row
+  .large-3.columns
+    ul.side-nav
+      li
+        a(href="#") Overview
+
+      li
+        a(href="#") Templates
+
+      li
+        a(href="#") Variables
+
+      li
+        a(href="#") Printing
+
+      li
+        a(href="#") Logic
+
+      li
+        a(href="#") Iteration
+
+  .large-9.columns
+    section#overview
+      h1 Overview
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | Creating a template or HTML file for a page is easy. It is important, however, to understand how the page you are create effects the system. When creating a template one should properly evaluate the files content and location. In addition, it is important to understand the difference between a <code>View Template</code> and a <code>Partial Template</code>.
+
+      p
+        | <strong>When creating a file ask yourself four questions:</strong>
+
+      ol
+        li
+          a(href="#") Is the file I am creating in the correct location?
+        li
+          a(href="#") Is the file and or folder name, I am creating, following convention?
+        li
+          | Do I want a <code>View Template</code> or a <code>Partial Template</code>?
+        li
+          | Have I included the appropriate content type / taglibs?
+
+      p
+        | <em>If you are unsure of the content type and taglibs to should be included in your HTML file, include the code below:</em>
+
+      .example
+        p
+          | <strong>With comments</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- Set the content type to UTF-8 to enable international charset --&gt;
+          &lt;%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %&gt;
+
+          &lt;!-- Include struts tags --&gt;
+          &lt;%@ taglib prefix="s" uri="/struts-tags" %&gt;
+
+          &lt;!-- Add appropriate page title --&gt;
+          &lt;title&gt;{{YOUR_PAGE_TITLE}}&lt;/title&gt;
+
+        p
+          | <strong>Without comments</strong>
+
+        pre.prettyprint.linenums.
+          &lt;%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %&gt;
+          &lt;%@ taglib prefix="s" uri="/struts-tags" %&gt;
+
+          &lt;title&gt;{{YOUR_PAGE_TITLE}}&lt;/title&gt;
+
+    section#templates
+      h1 Creating a Template
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | Template files are the views that are seen on every page. Each template file makes up the visual mark up that you want to display on a given page. The goal for creating maintainable templates is to split up the content being rendered into display logic that is brief, but comprehensive. We can achieve this goal by defining two template types where each template type will allow us to define manageable and reusable, semantic mark up.
+
+      p
+        | There are two types of template files:
+
+      ul
+        li
+          | <code>View Templates</code>
+        li
+          | <code>Partial Templates</code>
+
+      p
+        | <em>It is important to know that a template represents a specific page's content and nothing more. The menu, header, and footer, for example, should <strong>NOT</strong> be included in a template file. Items such as those should be included in a <code>Decorator</code>.</em>
+
+      h2 Views
+
+      p
+        | <code>View Templates</code> are and should be used to define the page's content.  It is the <code>View Template's</code> responsibility to organize the layout of the content within itself. Note: each <code>View Template</code> may be composed of multiple <code>Partial Templates</code>.
+
+      .example
+        p
+          | <strong>/WebContent/struts/hit/hit-list.jsp</strong>
+
+        pre.prettyprint.linenums.
+          &lt;%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %&gt;
+          &lt;%@ taglib prefix="s" uri="/struts-tags" %&gt;
+
+          &lt;!-- Browser tab will display "PICS - My Example Page" --&gt;
+          &lt;title&gt;My Hit List&lt;/title&gt;
+
+          &lt;!-- Add "My Hit List" page header --&gt;
+          &lt;s:include value="/struts/layout/_page-header.jsp"&gt;
+              &lt;s:param name="title"&gt;My Hit List&lt;/s:param&gt;
+          &lt;/s:include&gt;
+
+          &lt;ul&gt;
+              &lt;!-- Display a list of hits --&gt;
+              &lt;s:iterator value="hitList" var="hit"&gt;
+                  &lt;li&gt;
+                      &lt;s:include value="/struts/hit/_hit.jsp" /&gt;
+                          &lt;s:param name="honorific"&gt;${hit.honorific}&lt;/s:param&gt;
+                          &lt;s:param name="name"&gt;${hit.name}&lt;/s:param&gt;
+                          &lt;s:param name="is_alive"&gt;${hit.alive}&lt;/s:param&gt;
+                      &lt;/s:include&gt;
+                  &lt;/li&gt;
+              &lt;/s:iterator&gt;
+          &lt;/ul&gt;
+
+      hr
+
+      h2 Partials
+
+      p
+        | <code>Partial Templates</code> are and should be used to define the page's <strong>sub-content</strong>.  Any information that will make up a portion of a <code>View Template</code>, used for ajax or is a shared among multiple <code>View Templates</code> should be a partial.
+
+      .example
+        p
+          | <strong>/WebContent/struts/hit/_hit.jsp</strong>
+
+        pre.prettyprint.linenums.
+          &lt;%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %&gt;
+          &lt;%@ taglib prefix="s" uri="/struts-tags" %&gt;
+
+          &lt;% if (request.getParameter("honorific") != null) { %&gt;
+              &lt;s:set name="honorific"&gt;${param.honorific}&lt;/s:set&gt;
+          &lt;% } else { %&gt;
+              &lt;s:set name="honorific"&gt;Captain&lt;/s:set&gt;
+          &lt;% } %&gt;
+
+          &lt;% if (request.getParameter("name") != null) { %&gt;
+              &lt;s:set name="name"&gt;${param.name}&lt;/s:set&gt;
+          &lt;% } else { %&gt;
+              &lt;s:set name="name"&gt;Douglas&lt;/s:set&gt;
+          &lt;% } %&gt;
+
+          &lt;% if (request.getParameter("is_alive") != null) { %&gt;
+              &lt;s:set name="is_alive"&gt;${param.is_alive}&lt;/s:set&gt;
+          &lt;% } else { %&gt;
+              &lt;s:set name="is_alive"&gt;true&lt;/s:set&gt;
+          &lt;% } %&gt;
+
+          &lt;div class="hit"&gt;
+              &lt;span class="honorific"&gt;${honorific}&lt;/span&gt;
+              &lt;span class="name"&gt;${name}&lt;/span&gt;
+              &lt;span class="is-alive"&gt;
+                  &lt;s:if test="is_alive == 'true'"&gt;
+                      &lt;i class="icon-ok"&gt;&lt;/i&gt;
+                  &lt;/s:if&gt;
+              &lt;/span&gt;
+          &lt;/div&gt;
+
+    section#create_variables
+      h1 Creating variables in HTML
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | The most common use for needing variables in HTML is to make your life easier. Creating variables in the HTML will allow you to manipulate the values on the <code>ValueStack</code> to assist you on the presentation layer. Maybe you need to create CSS classes or display lists dependent on the parameters passed from the <code>Action Class</code>. However, you will want to understand how <code>OGNL</code> works and how, when creating variables, they will be evaluated.
+
+      .example
+        p
+          | <strong>Create an object or list</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- Using OGNL, the variable will be set to the value User getUser() method on the ValueStack --&gt;
+          &lt;s:set var="{{YOUR_VARIABLE_NAME}}" value="user" /&gt;
+
+        p
+          | <strong>Create an list</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- Using OGNL, the variable will be set to the value List&lt;User&gt; getUserList() method on the ValueStack --&gt;
+          &lt;s:set var="{{YOUR_VARIABLE_NAME}}" value="userList" /&gt;
+
+        p
+          | <strong>Create a string from an object</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- Using OGNL, the variable will be set to the value User getUser().getName() method on the ValueStack --&gt;
+          &lt;s:set var="{{YOUR_VARIABLE_NAME}}" value="user.name" /&gt;
+
+        p
+          | <strong>Create a string literal</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- The variable will be evaluated and set to the String "{{YOUR_STRING}}" --&gt;
+          &lt;s:set var="{{YOUR_VARIABLE_NAME}}"&gt;{{YOUR_STRING}}&lt;/s:set&gt;
+
+        p
+          | <strong>Create an empty string</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- Your variable will be set to an empty string --&gt;
+          &lt;s:set var="{{YOUR_VARIABLE_NAME}}" value="%{''}" /&gt;
+
+    section#print_variables
+      h1 Printing variables in HTML
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | To dynamic display content onto a page is commonplace. However, it is important to know how that data is being generated. Malformed or unvalidated data can cause much more harm than good. The most common example of unvalidated data is script injection. This security vulnerability is important to be cognizant of. Consequently, it is a good idea to be/get familiar with the <code>JSP 2.0 Expression Language</code>.
+
+      .example
+        p
+          | <strong>Accessing a name variable on the <code>ValueStack</code></strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- JSP 2.0 EL (Expression Language) --&gt;
+          ${name}
+
+          &lt;!-- Struts 2 --&gt;
+          &lt;s:property value="name" /&gt;
+
+        p
+          | <strong>Accessing a name variable on an object on the <code>ValueStack</code></strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- JSP 2.0 EL (Expression Language) --&gt;
+          ${user.name}
+
+          &lt;!-- Struts 2 --&gt;
+          &lt;s:property value="user.name" /&gt;
+
+        p
+          | <strong>Accessing a string literal</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- JSP 2.0 EL (Expression Language) --&gt;
+          ${'Did you say just "Douglas"?'}
+
+          &lt;!-- Struts 2 --&gt;
+          &lt;s:property value="%{'Did you just say \"Douglas\"?'}" /&gt;
+
+        p
+          | <strong>Accessing a translation</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- JSP 2.0 EL (Expression Language) --&gt;
+          &lt;s:text name="{{YOUR_TRANSLATION_KEY}}" var="translation" /&gt;
+          ${translation}
+
+          &lt;!-- Struts 2 --&gt;
+          &lt;s:text name="{{YOUR_TRANSLATION_KEY}}" /&gt;
+
+        p
+          | <strong>Accessing a variable created by the <code>&lt;s:set var="name"&gt;Douglas&lt;/s:set&gt;</code></strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- JSP 2.0 EL (Expression Language) --&gt;
+          ${name}
+
+          &lt;!-- Struts 2 --&gt;
+          &lt;s:property value="#name" /&gt;
+
+        p
+          | <strong>Accessing a variable you do NOT want to escape</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- JSP 2.0 EL (Expression Language) --&gt;
+          ${name}
+
+          &lt;!-- Struts 2 --&gt;
+          &lt;s:property value="name" escape="false" /&gt;
+
+        p
+          | <strong>Accessing a variable you want to escape</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- JSP 2.0 EL (Expression Language) --&gt;
+          ${fn:escapeXml(???)}
+
+          &lt;!-- Struts 2 --&gt;
+          &lt;s:property value="name" /&gt;
+          &lt;s:property value="name" escape="true" /&gt;
+
+    section#logic
+      h1 Logic in HTML
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | Adding logic to templates should be limited. It is better if you continue to add the business logic in the backend. When it is neccessary to put logic within the templates, it should <strong>NOT</strong> be mixed with the HTML. <em>Keeping your logic separate from the HTML being rendered helps alleviate the readability issues of XML.</em> Templates become overwhelmingly difficult to maintain if you mix HTML with more XML (Struts tags).
+
+      .example
+        p
+          | <strong>Good example 1</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- Your logic (no html) --&gt;
+          &lt;s:if test="hit.weapon == 'icepick'"&gt;
+              &lt;s:set var="hit_image"&gt;/img/icepick.png&lt;/s:set&gt;
+          &lt;/s:if&gt;
+          &lt;s:elseif test="hit.weapon == 'crowbar'"&gt;
+              &lt;s:set var="hit_image"&gt;/img/crowbar.png&lt;/s:set&gt;
+          &lt;s:else&gt;
+              &lt;s:set var="hit_image"&gt;/img/banana.png&lt;/s:set&gt;
+          &lt;/s:else&gt;
+
+          &lt;!-- Your content (html) --&gt;
+          &lt;img src="${hit_image}" /&gt;
+
+        p
+          | <strong>Good example 2</strong>
+
+        pre.prettyprint.linenums.
+          &lt;ul&gt;
+              &lt;s:iterator value="hits" var="hit"&gt;
+                  &lt;!-- Your logic (no html) --&gt;
+                  &lt;s:if test="hit.alive == true"&gt;
+                      &lt;s:set var="hit_image"&gt;/img/alive.png&lt;/s:set&gt;
+                  &lt;/s:if&gt;
+                  &lt;s:else&gt;
+                      &lt;s:set var="hit_image"&gt;/img/dead.png&lt;/s:set&gt;
+                  &lt;/s:else&gt;
+
+                  &lt;s:url action="Hit" method="profile" var="hit_url"&gt;
+                      &lt;s:param name="id"&gt;${hit.id}&lt;/s:param&gt;
+                  &lt;/s:url&gt;
+
+                  &lt;!-- Your content (html) --&gt;
+                  &lt;a href="${hit_url}"&gt;${hit.name} is &lt;img src="${hit_image}" /&gt;&lt;/a&gt;
+              &lt;/s:iterator&gt;
+          &lt;/ul&gt;
+
+        p
+          | <strong>Bad example</strong>
+
+        pre.prettyprint.linenums.
+          &lt;s:url action="Hit" method="profile" var="hit_url"&gt;
+              &lt;s:param name="id"&gt;${hit.id}&lt;/s:param&gt;
+          &lt;/s:url&gt;
+
+          &lt;!-- Your content --&gt;
+          &lt;a href="${hit_url}"&gt;
+              &lt;!-- Your logic --&gt;
+              &lt;s:if test="hit.alive == true"&gt;
+                  &lt;s:set var="hit_image"&gt;/img/alive.png&lt;/s:set&gt;
+              &lt;/s:if&gt;
+              &lt;s:else&gt;
+                  &lt;s:set var="hit_image"&gt;/img/dead.png&lt;/s:set&gt;
+              &lt;/s:else&gt;
+
+              ${hit.name} is &lt;img src="${hit_image}" /&gt;
+          &lt;/a&gt;
+
+      p
+        | <strong><em>The only exception to this rule is when sectioning out alternative views of the same page.</em></strong>
+
+      .example
+        pre.prettyprint.linenums.
+          &lt;s:if test="hits.length &gt; 0"&gt;
+              &lt;ul&gt;
+                  &lt;s:iterator value="hits" var="hit"&gt;
+                      &lt;li&gt;${hit.name}&lt;/li&gt;
+                  &lt;/s:iterator&gt;
+              &lt;/ul&gt;
+          &lt;/s:if&gt;
+          &lt;s:else&gt;
+              &lt;p&gt;No Hits Found&lt;/p&gt;
+          &lt;/s:else&gt;
+
+    section#iteration
+      h1 Iterating over variables in HTML
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | Iterating over lists and maps are commonplace. Ensure you do not confuse scope by <em>SPECIFICALLY</em> specifying a new context. The new context would be accessed directly so that there is no confusion to which variable / object you are referencing. You can do this by declaring the <code>var</code> keyword in an <code>&lt;s:iterator&gt;</code> tag.
+
+      .example
+        p
+          | <strong>Basic example 1</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- Using OGNL, hitList will be set to the getHitList() method on the ValueStack --&gt;
+          &lt;!-- The result of that method will be assigned to the hit variable --&gt;
+          &lt;s:iterator value="hitList" var="hit"&gt;
+              &lt;!-- Using EL Expression Language, access getName() method on the variable #hit --&gt;
+              ${hit.name}
+          &lt;/s:iterator&gt;
+
+        p
+          | <strong>Basic example 2</strong>
+
+        pre.prettyprint.linenums.
+          &lt;!-- Using OGNL, hitList will be set to the getHitList() method on the ValueStack --&gt;
+          &lt;!-- The result of that method will be assigned to the hits variable --&gt;
+          &lt;!-- In addition, a hitStatus variable is to access IteratorStatus values (index|count|first|even|last|odd) --&gt;
+          &lt;s:set var="hits" value="hitList" /&gt;
+
+          &lt;s:iterator value="#hits" var="hit" status="hitStatus"&gt;
+              &lt;!-- Using EL Expression Language, access getIndex() method on the variable #hitStatus --&gt;
+              ${hitStatus.index}
+          &lt;/s:iterator&gt;
+
+        p
+          | <strong>Advanced example</strong>
+
+        pre.prettyprint.linenums.
+          &lt;ul id="${list_id}" class="${list_class} unstyled"&gt;
+            &lt;s:iterator value="#reports" var="user_report"&gt;
+                &lt;s:set name="report" value="#user_report.report" /&gt;
+                &lt;s:set name="report_id" value="#report.id" /&gt;
+
+                &lt;!-- Url --&gt;
+                &lt;s:url action="ManageReports" method="unfavorite" var="report_favorite_url"&gt;
+                    &lt;s:param name="reportId"&gt;${report_id}&lt;/s:param&gt;
+                &lt;/s:url&gt;
+
+                &lt;s:url action="Report" var="report_url"&gt;
+                    &lt;s:param name="report"&gt;${report_id}&lt;/s:param&gt;
+                &lt;/s:url&gt;
+
+                &lt;!-- Icon --&gt;
+                &lt;s:set name="is_favorite_class" value="%{''}" /&gt;
+
+                &lt;s:if test="favorite"&gt;
+                    &lt;s:set name="is_favorite_class"&gt;selected&lt;/s:set&gt;
+                &lt;/s:if&gt;
+
+                &lt;li class="report clearfix"&gt;
+                    &lt;a href="${report_favorite_url}" class="favorite" data-id="${report_id}"&gt;
+                        &lt;i class="icon-star icon-large ${is_favorite_class}"&gt;&lt;/i&gt;
+                    &lt;/a&gt;
+                &lt;/li&gt;
+            &lt;/s:iterator&gt;
+          &lt;/ul&gt;

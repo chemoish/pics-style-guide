@@ -1,0 +1,160 @@
+.row
+  .large-3.columns
+    ul.side-nav
+      li
+        a(href="#") Folders
+
+      li
+        a(href="#") Templates
+
+  .large-9.columns
+    section#folders
+      h1 Folders
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | It is very important that a user gains context by folder structure.  Structuring and organizing files is just as important as structuring and organizing code.  Nest folders when appropriate and make sure you are not forking the project internally by creating multiple directories to achieve similar purpose <strong>(e.g. i18n and translation)</strong>.
+
+      h4 Requirements:
+
+      ul
+        li
+          | Lower case
+
+        li
+          | Words separated by "-" (hyphen)
+
+        li
+          | Singular
+
+        li
+          | English (removing vagueness)
+
+        li
+          | English sounding
+
+      .example
+        p
+          | <strong>Good example:</strong>
+
+        pre.prettyprint.linenums.
+          /struts/app-translation
+          /struts/contractor
+          /struts/contractor/trade
+          /struts/contractor/registration
+          /struts/frontend-development-guide
+          /struts/layout
+
+        p
+          | <strong>Bad Example:</strong>
+
+        pre.prettyprint.linenums.
+          # not separated by "-"
+          /struts/app_property
+
+          # not lower case, not separated by "-"
+          /struts/CustomerService
+
+          # vague
+          /struts/gc
+          /struts/misc
+
+          # plural
+          /struts/reports
+
+    section#templates
+      h1 Templates
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | These naming conventions should apply to all HTML, CSS and Javascript files.  These files come under the <code>struts</code>, <code>css</code> and <code>js</code> directories respectively.
+
+      h4 Requirements:
+
+      ul
+        li
+          | Organized under correct folder
+
+        li
+          | Lower case
+
+        li
+          | Words separated by "-" (hyphen)
+
+        li
+          | English (remove vagueness)
+
+        li
+          | English sounding
+
+
+      h2 Views
+
+      .example
+        p
+          | <strong>Good example:</strong>
+
+        pre.prettyprint.linenums.
+          # lower case
+          /struts/frontend-development-guide/file-structure.jsp
+
+          # separated by "-", english sounding
+          /struts/report/manage-report/favorites-list.jsp
+          /struts/report/manage-report/my-reports-list.jsp
+
+        p
+          | <strong>Bad Example:</strong>
+
+        pre.prettyprint.linenums.
+          # not separated by "-"
+          /struts/confirmaudit.jsp
+
+          # not lower case, not separated by "-"
+          /struts/jQuerySample.jsp
+
+          # not properly organized, not separated by "-"
+          /struts/login_ajax.jsp
+
+          # not properly organized, not separated by "-", vague, not english sounding
+          /struts/misc/ambest_suggest.jsp
+          /struts/misc/conop_flag_diff.jsp
+
+      hr
+
+      h2 Partials
+      h4 Additional Requirements:
+
+      ul
+        li
+          | Prefixed by "_" (underscore)
+
+      .example
+        p
+          | <strong>Good example:</strong>
+
+        pre.prettyprint.linenums.
+          # organized, lowercase, separated by "-", prefixed with "_", english sounding
+          /struts/frontend-development-guide/_menu.jsp
+          /struts/layout/_environment.jsp
+          /struts/layout/menu/_menu.jsp
+          /struts/layout/_page-header.jsp
+
+        p
+          | <strong>Bad Example:</strong>
+
+        pre.prettyprint.linenums.
+          # not organized, not prefixed with "_", shouldn't even exist — what is it for?
+          /struts/jquery.jsp
+
+          # not lower case
+          /struts/contrators/_contractorFlagAllFlags.jsp
+
+          # not prefixed with "_"
+          /struts/layout/chat.jsp
+
+          # not prefixed with "_", not separated with "-", bad practice
+          /struts/layout/include_javascript.jsp

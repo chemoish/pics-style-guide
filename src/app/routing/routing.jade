@@ -1,0 +1,167 @@
+.row
+  .large-3.columns
+    ul.side-nav
+      li
+        a(href="#") Overview
+
+      li
+        a(href="#") Routing
+
+      li
+        a(href="#") Links
+
+  .large-9.columns
+    section#overview
+      h1 Overview
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | <code>Routing</code> is an important subject. It determines how incoming requests are handled and processed. The <code>routing</code> process controls whether or not you get the response you want, but also provides a couple of other benefits:
+
+      ol
+        li
+          | Single point of entry for URL management
+
+        li
+          | No longer bound by hard coded URLs
+
+        li
+          | Abstracts the defined URL from the path on the file system
+
+        li
+          | Validation for URLs
+
+        li
+          | Validation for request parameters
+
+    section#routing
+      h1 Routing
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | It is important to note that incoming requests can be manipulated at different levels, from <code>DNS</code> to <code>.htaccess</code>. Struts 2 has a few different configurations on <code>Routing</code>, be sure to investigate them on your own. This guide will explain how a response is returned when a user makes a request to the application. This is a basic guide and is not meant to be comprehensive.
+
+      p
+        | <strong>Below is an example of someone attempting to access "https://www.picsorganizer.com/Login.action"</strong>
+
+      .example
+        p
+          | <strong>Step 1: Match and direct an incoming request.</strong>
+
+        pre.prettyprint.linenums.
+          # User requests a specified URL from his/her browser
+          https://www.picsorganizer.com/Login.action
+
+          # Catches all requests that end with .action and applies the Struts filter
+          web.xml
+
+          # Forwards to URL management
+          struts.xml
+
+          # Regex pattern matches to appropriate action and associates the request to a Java Class
+          &lt;action name="Login" class="com.picsauditing.access.LoginController"&gt;&lt;/action&gt;
+
+          # Default action handler is execute()
+          public String execute() throws Exception {}
+
+          # Alternate example for https://www.picsorganizer.com/Login!logout.action
+          public String logout() throws Exception {}
+
+        p
+          | <strong>Step 2: Build a response, including headers and content.</strong>
+
+        pre.prettyprint.linenums.
+          # Obtain a return String from the action method to determine the appropriate response and response headers.
+          # com.opensymphony.xwork2.Action interface contains a list of provided constants
+          public String execute() throws Exception {
+              return SUCCESS;
+          }
+
+          # Alternate example for https://www.picsorganizer.com/Login!logout.action
+          public String logout() throws Exception {
+              return "logout";
+          }
+
+          # Match the constant back to struts.xml to obtain available template (if there is one)
+          &lt;action name="Login" class="com.picsauditing.access.LoginController"&gt;&lt;/action&gt;
+              &lt;result&gt;/struts/user/login/login.jsp&lt;/result&gt;
+              &lt;result name="logout"&gt;/some-other-file.jsp&lt;/result&gt;
+          &lt;/action&gt;
+
+        p
+          | <strong>Step 3: Decorate response appropriately.</strong>
+
+        pre.prettyprint.linenums.
+          # Obtain an appropriate layout file
+          decorators.xml
+
+          # Regex match the return to a layout file
+          &lt;decorator name="simpleLayout" page="simple-layout.jsp"&gt;
+              &lt;pattern&gt;/Login.action&lt;/pattern&gt;
+          &lt;/decorator&gt;
+
+          # Apply the content returned to the layout file using SiteMesh
+          &lt;!DOCTYPE html&gt;
+          &lt;html&gt;
+              &lt;header&gt;
+                  &lt;!-- TITLE REPLACEMENT --&gt;
+                  &lt;decorator:title default="PICS" /&gt;
+              &lt;/header&gt;
+              &lt;body&gt;
+                  &lt;!-- CONTENT REPLACEMENT --&gt;
+                  &lt;decorator:body /&gt;
+              &lt;/body&gt;
+          &lt;/html&gt;
+
+        p
+          | <strong>Step 4: Enjoy a cup of tea along with your response.</strong>
+
+    section#links
+      h1 Links
+
+      .alert-box.info.radius(data-alert)
+        | <strong>BETA</strong> This section is currently under development.
+
+      p
+        | It is important to utilize the <code>routing</code> capabilities to generate appropriate URLs. The power of generating URLs comes from a single point of entry for URL management. By allowing the <code>routing</code> system to generate and control our URLs it will be a rare case in which a URL would need to be hard coded. Links can then be changed in a centralized location that is not in the templates. This way the <code>routing</code> file can determine how links should be formatted and displayed.
+
+      p
+        | If the homepage is <em>https://www.picsorganizer.com/</em> today, but tomorrow it is <em>https://www.picsorganizer.com/dashboard/</em>, the only thing that would have to be changed is the <code>Routing</code> file and all of the links would update appropriately.
+
+      .example
+        p
+          | <strong>Generating a link to a Action</strong>
+
+        pre.prettyprint.linenums.
+          &lt;s:url action="Home" var="dashboard_url" /&gt;
+          &lt;a href="${dashboard_url}"&gt;Go to my Dashboard&lt;/a&gt;
+
+        p
+          | <strong>Generating a link to a Action/Method</strong>
+
+        pre.prettyprint.linenums.
+          &lt;s:url action="Login" method="logout" var="logout_url" /&gt;
+          &lt;a href="${logout_url}"&gt;Logout&lt;/a&gt;
+
+        p
+          | <strong>Generating a link to a Action with parameters</strong>
+
+        pre.prettyprint.linenums.
+          &lt;s:url action="Report" var="report_url"&gt;
+              &lt;s:param name="id"&gt;${report.id}&lt;/s:param&gt;
+          &lt;/s:url&gt;
+
+          &lt;form action="${report_url}" method="post"&gt;&lt;/form&gt;
+
+        p
+          | <strong>Generating a link to an external source</strong>
+
+        pre.prettyprint.linenums.
+          &lt;a href="//www.twitter.com/chemoish"&gt;@chemoish&lt;/a&gt;
+
+
+

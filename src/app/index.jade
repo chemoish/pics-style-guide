@@ -1,12 +1,12 @@
 !!! 5
-| <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-app="app"> <![endif]-->
-| <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ng-app="app"> <![endif]-->
-| <!--[if IE 8]>         <html class="no-js lt-ie9" ng-app="app"> <![endif]-->
-| <!--[if gt IE 8]><!--> <html class="no-js" ng-app="app"> <!--<![endif]-->
+| <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" ng-app="pics"> <![endif]-->
+| <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" ng-app="pics"> <![endif]-->
+| <!--[if IE 8]>         <html class="no-js lt-ie9" ng-app="pics"> <![endif]-->
+| <!--[if gt IE 8]><!--> <html class="no-js" ng-app="pics"> <!--<![endif]-->
 head
   meta(charset="utf-8")
   meta(http-equiv="X-UA-Compatible", content="IE=edge")
-  title Broman
+  title PICS Style Guide
   meta(name="description", content="")
   meta(name="viewport", content="width=device-width, initial-scale=1")
 
@@ -20,7 +20,55 @@ head
 body
   ng-include(src="'layout/_header.html'")
 
-  | I love pink!
+  .row
+    .columns
+      h1 Frontend Development Guide
+
+  .row
+    .columns
+      ul.inline-list
+        li
+          a.button.tiny(href="#") Dashboard
+
+        li
+          a.button.tiny(href="#technology") Technology
+
+        li
+          a.button.tiny(href="#file-structure") File Structure
+
+        li
+          a.button.tiny(href="#routing") Routing
+
+        li
+          a.button.tiny(href="#html") HTML
+
+        li
+          a.button.tiny(href="#decorators") Decorators
+
+        li
+          a.button.dropdown.tiny(
+            data-dropdown="drop"
+          ) Conventions &amp; Standards
+
+          ul#drop.f-dropdown(data-dropdown-content)
+            li
+              a(href="#conventions-and-standards/css-javascript") CSS &amp; Javascript
+
+            li
+              a(href="#conventions-and-standards/html") HTML
+
+            li
+              a(href="#conventions-and-standards/file-structure") File Structure
+
+        li
+          a.button.tiny(href="#style-guide") Style Guide
+
+        li
+          a.button.tiny(href="#page-layout") Page Layout
+
+  .row
+    .columns
+      ng-view
 
   ng-include(src="'layout/_footer.html'")
 
