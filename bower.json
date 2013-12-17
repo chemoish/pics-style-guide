@@ -1,6 +1,6 @@
 {
-  "name": "broman",
-  "version": "1.0.0",
+  "name": "pics-style-guide",
+  "version": "0.0.1",
   "dependencies": {
     "angular": "*",
     "angular-route": "*",

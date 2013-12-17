@@ -1,9 +1,9 @@
 {
-  "name": "broman",
-  "version": "1.0.0",
+  "name": "pics-style-guide",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/chemoish/broman.git"
+    "url": "https://github.com/chemoish/pics-style-guide.git"
   },
   "devDependencies": {
     "coffee-script": "~1.6.3",
