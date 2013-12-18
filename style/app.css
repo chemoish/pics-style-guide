@@ -1,2 +1,6 @@
-body{background-color:#f0bbed;color:#6a5ba6}
 
+#main{padding-left:220px}
+
+#side_bar{background:#333;height:100%;margin-left:-220px;position:fixed;width:220px}
+.brand{background-color:#222;height:200px;width:100%}
+.side-nav{padding:.875rem}
