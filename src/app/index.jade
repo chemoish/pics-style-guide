@@ -18,57 +18,16 @@ head
   script(src="script/modernizr.js")
 
 body
-  ng-include(src="'layout/_header.html'")
+  #main
+    ng-include(src="'navigation/_navigation.html'")
 
-  .row
-    .columns
-      h1 Frontend Development Guide
+    .row
+      .columns
+        h1 Frontend Development Guide
 
-  .row
-    .columns
-      ul.inline-list
-        li
-          a.button.tiny(href="#") Dashboard
-
-        li
-          a.button.tiny(href="#technology") Technology
-
-        li
-          a.button.tiny(href="#file-structure") File Structure
-
-        li
-          a.button.tiny(href="#routing") Routing
-
-        li
-          a.button.tiny(href="#html") HTML
-
-        li
-          a.button.tiny(href="#decorators") Decorators
-
-        li
-          a.button.dropdown.tiny(
-            data-dropdown="drop"
-          ) Conventions &amp; Standards
-
-          ul#drop.f-dropdown(data-dropdown-content)
-            li
-              a(href="#conventions-and-standards/css-javascript") CSS &amp; Javascript
-
-            li
-              a(href="#conventions-and-standards/html") HTML
-
-            li
-              a(href="#conventions-and-standards/file-structure") File Structure
-
-        li
-          a.button.tiny(href="#style-guide") Style Guide
-
-        li
-          a.button.tiny(href="#page-layout") Page Layout
-
-  .row
-    .columns
-      ng-view
+    .row
+      .columns
+        ng-view
 
   ng-include(src="'layout/_footer.html'")
 
